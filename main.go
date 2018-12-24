@@ -1,4 +1,4 @@
-package prom_calendar_russia
+package main
 
 import (
 	"fmt"

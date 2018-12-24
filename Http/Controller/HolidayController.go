@@ -53,7 +53,7 @@ func (c *HolidayController) FindByYearAndMonth(context echo.Context) error {
 		return err
 	}
 
-	holidays, err := c.HolidayService.GetAllByYearAndMonth(month.(uint), year.(uint))
+	holidays, err := c.HolidayService.GetAllByYearAndMonth(year.(uint), month.(uint))
 	if err != nil {
 		return err
 	}
@@ -81,7 +81,7 @@ func (c *HolidayController) FindByYearMonthAndDay(context echo.Context) error {
 		return err
 	}
 
-	holiday, err := c.HolidayService.GetOneByYearMonthAndDay(day.(uint), month.(uint), year.(uint))
+	holiday, err := c.HolidayService.GetOneByYearMonthAndDay(year.(uint), month.(uint), day.(uint))
 	if err != nil {
 		return err
 	}

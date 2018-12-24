@@ -6,8 +6,8 @@ import (
 )
 
 type IHolidayService interface {
-	GetOneByYearMonthAndDay(day uint, month uint, year uint) (*Entity.Holiday, error)
-	GetAllByYearAndMonth(month uint, year uint) ([]*Entity.Holiday, error)
+	GetOneByYearMonthAndDay(year uint, month uint, day uint) (*Entity.Holiday, error)
+	GetAllByYearAndMonth(year uint, month uint) ([]*Entity.Holiday, error)
 	GetAllByYear(year uint) ([]*Entity.Holiday, error)
 
 	CreateIfNotExists(holidayDTO *DTO.HolidayDTO) error

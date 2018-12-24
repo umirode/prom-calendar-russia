@@ -75,8 +75,6 @@ func (c *CalendarCommand) getUpdateCsvCommand() *cobra.Command {
 					Day:   holiday.Day,
 				})
 			}
-
-			logrus.Println(holidays)
 		},
 	}
 

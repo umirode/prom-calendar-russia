@@ -16,7 +16,7 @@ func NewHolidayService(holidayRepository Repository.IHolidayRepository) *Holiday
 	}
 }
 
-func (s *HolidayService) GetOneByYearMonthAndDay(day uint, month uint, year uint) (*Entity.Holiday, error) {
+func (s *HolidayService) GetOneByYearMonthAndDay(year uint, month uint, day uint) (*Entity.Holiday, error) {
 	holiday, err := s.holidayRepository.FindOneByDayMonthAndYear(day, month, year)
 	if err != nil {
 		return nil, err
@@ -25,7 +25,7 @@ func (s *HolidayService) GetOneByYearMonthAndDay(day uint, month uint, year uint
 	return holiday, nil
 }
 
-func (s *HolidayService) GetAllByYearAndMonth(month uint, year uint) ([]*Entity.Holiday, error) {
+func (s *HolidayService) GetAllByYearAndMonth(year uint, month uint) ([]*Entity.Holiday, error) {
 	holidays, err := s.holidayRepository.FindAllByYearAndMonth(month, year)
 	if err != nil {
 		return nil, err
