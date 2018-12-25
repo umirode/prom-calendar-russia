@@ -9,6 +9,7 @@ type IHolidayService interface {
 	GetOneByYearMonthAndDay(year uint, month uint, day uint) (*Entity.Holiday, error)
 	GetAllByYearAndMonth(year uint, month uint) ([]*Entity.Holiday, error)
 	GetAllByYear(year uint) ([]*Entity.Holiday, error)
+	GetAll() ([]*Entity.Holiday, error)
 
 	CreateIfNotExists(holidayDTO *DTO.HolidayDTO) error
 }

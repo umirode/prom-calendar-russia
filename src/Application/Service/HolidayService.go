@@ -43,6 +43,15 @@ func (s *HolidayService) GetAllByYear(year uint) ([]*Entity.Holiday, error) {
 	return holidays, nil
 }
 
+func (s *HolidayService) GetAll() ([]*Entity.Holiday, error) {
+	holidays, err := s.holidayRepository.FindAll()
+	if err != nil {
+		return nil, err
+	}
+
+	return holidays, nil
+}
+
 func (s *HolidayService) CreateIfNotExists(holidayDTO *DTO.HolidayDTO) error {
 	holiday, err := s.GetOneByYearMonthAndDay(holidayDTO.Year, holidayDTO.Month, holidayDTO.Day)
 	if err != nil {

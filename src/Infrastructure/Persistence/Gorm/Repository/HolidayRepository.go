@@ -30,6 +30,21 @@ func (r *HolidayRepository) Save(holiday *Entity.Holiday) error {
 	return nil
 }
 
+func (r *HolidayRepository) FindAll() ([]*Entity.Holiday, error) {
+	models := make([]*Model.Holiday, 0)
+
+	r.db.Find(&models)
+
+	entities := make([]*Entity.Holiday, 0)
+	for _, model := range models {
+		entity, _ := r.holidayConverter.ToAppEntity(model)
+
+		entities = append(entities, entity.(*Entity.Holiday))
+	}
+
+	return entities, nil
+}
+
 func (r *HolidayRepository) FindAllByYear(year uint) ([]*Entity.Holiday, error) {
 	models := make([]*Model.Holiday, 0)
 

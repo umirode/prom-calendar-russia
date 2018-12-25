@@ -7,6 +7,7 @@ import (
 type IHolidayRepository interface {
 	Save(holiday *Entity.Holiday) error
 
+	FindAll() ([]*Entity.Holiday, error)
 	FindAllByYear(year uint) ([]*Entity.Holiday, error)
 	FindAllByYearAndMonth(month uint, year uint) ([]*Entity.Holiday, error)
 	FindOneByDayMonthAndYear(day uint, month uint, year uint) (*Entity.Holiday, error)

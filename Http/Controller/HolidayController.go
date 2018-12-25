@@ -43,6 +43,21 @@ func (c *HolidayController) FindByYear(context echo.Context) error {
 	return context.JSON(http.StatusOK, holidaysMapArray)
 }
 
+func (c *HolidayController) Find(context echo.Context) error {
+	holidays, err := c.HolidayService.GetAll()
+	if err != nil {
+		return err
+	}
+
+	holidaysMapArray := make([]map[string]interface{}, 0)
+	for _, holiday := range holidays {
+		holidayMap, _ := c.HolidayHydrator.Extract(holiday)
+		holidaysMapArray = append(holidaysMapArray, holidayMap)
+	}
+
+	return context.JSON(http.StatusOK, holidaysMapArray)
+}
+
 func (c *HolidayController) FindByYearAndMonth(context echo.Context) error {
 	year, err := c.getParam(context, "year", "uint")
 	if err != nil {

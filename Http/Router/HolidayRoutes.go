@@ -16,4 +16,5 @@ func (r *Router) setHolidayRoutes() {
 	holidayGroup.GET("/:year/:month/:day", holidayController.FindByYearMonthAndDay)
 	holidayGroup.GET("/:year/:month", holidayController.FindByYearAndMonth)
 	holidayGroup.GET("/:year", holidayController.FindByYear)
+	holidayGroup.GET("", holidayController.Find)
 }
