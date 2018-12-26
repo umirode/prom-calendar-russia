@@ -50,8 +50,12 @@ func (p *CSVCalendarParser) Parse(file *os.File, startYear uint) ([]*Entity.Holi
 				for _, dayString := range daysStringArray {
 					logrus.Println(fmt.Sprintf("Year: %d, Month: %d, Day: %s", year, month, dayString))
 
-					if strings.Contains(dayString, "*") ||strings.Contains(dayString, "+") {
+					if strings.Contains(dayString, "*") {
 						continue
+					}
+
+					if strings.Contains(dayString, "+") {
+						dayString = strings.Replace(dayString, "+", "", -1)
 					}
 
 					day, err := strconv.Atoi(dayString)
