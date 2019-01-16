@@ -5,6 +5,7 @@ import (
 	"github.com/umirode/prom-calendar-russia/src/Application/Hydrator"
 	"github.com/umirode/prom-calendar-russia/src/Domain/Service"
 	"net/http"
+	"strconv"
 )
 
 type HolidayController struct {
@@ -29,7 +30,16 @@ func (c *HolidayController) FindByYear(context echo.Context) error {
 		return err
 	}
 
-	holidays, err := c.HolidayService.GetAllByYear(year.(uint))
+	shortened := false
+	shortenedString := context.QueryParam("shortened")
+	if shortenedString != "" {
+		shortened, err = strconv.ParseBool(shortenedString)
+		if err != nil {
+			return err
+		}
+	}
+
+	holidays, err := c.HolidayService.GetAllByYear(year.(uint), shortened)
 	if err != nil {
 		return err
 	}
@@ -44,7 +54,17 @@ func (c *HolidayController) FindByYear(context echo.Context) error {
 }
 
 func (c *HolidayController) Find(context echo.Context) error {
-	holidays, err := c.HolidayService.GetAll()
+	shortened := false
+	shortenedString := context.QueryParam("shortened")
+	if shortenedString != "" {
+		var err error
+		shortened, err = strconv.ParseBool(shortenedString)
+		if err != nil {
+			return err
+		}
+	}
+
+	holidays, err := c.HolidayService.GetAll(shortened)
 	if err != nil {
 		return err
 	}
@@ -68,7 +88,16 @@ func (c *HolidayController) FindByYearAndMonth(context echo.Context) error {
 		return err
 	}
 
-	holidays, err := c.HolidayService.GetAllByYearAndMonth(year.(uint), month.(uint))
+	shortened := false
+	shortenedString := context.QueryParam("shortened")
+	if shortenedString != "" {
+		shortened, err = strconv.ParseBool(shortenedString)
+		if err != nil {
+			return err
+		}
+	}
+
+	holidays, err := c.HolidayService.GetAllByYearAndMonth(year.(uint), month.(uint), shortened)
 	if err != nil {
 		return err
 	}

@@ -30,10 +30,14 @@ func (r *HolidayRepository) Save(holiday *Entity.Holiday) error {
 	return nil
 }
 
-func (r *HolidayRepository) FindAll() ([]*Entity.Holiday, error) {
+func (r *HolidayRepository) FindAll(withShortened bool) ([]*Entity.Holiday, error) {
 	models := make([]*Model.Holiday, 0)
 
-	r.db.Find(&models)
+	if withShortened {
+		r.db.Find(&models)
+	} else {
+		r.db.Where("shortened = ?", 0).Find(&models)
+	}
 
 	entities := make([]*Entity.Holiday, 0)
 	for _, model := range models {
@@ -45,10 +49,14 @@ func (r *HolidayRepository) FindAll() ([]*Entity.Holiday, error) {
 	return entities, nil
 }
 
-func (r *HolidayRepository) FindAllByYear(year uint) ([]*Entity.Holiday, error) {
+func (r *HolidayRepository) FindAllByYear(year uint, withShortened bool) ([]*Entity.Holiday, error) {
 	models := make([]*Model.Holiday, 0)
 
-	r.db.Where("year = ?", year).Find(&models)
+	if withShortened {
+		r.db.Where("year = ?", year).Find(&models)
+	} else {
+		r.db.Where("year = ? and shortened = ?", year, 0).Find(&models)
+	}
 
 	entities := make([]*Entity.Holiday, 0)
 	for _, model := range models {
@@ -60,10 +68,14 @@ func (r *HolidayRepository) FindAllByYear(year uint) ([]*Entity.Holiday, error) 
 	return entities, nil
 }
 
-func (r *HolidayRepository) FindAllByYearAndMonth(month uint, year uint) ([]*Entity.Holiday, error) {
+func (r *HolidayRepository) FindAllByYearAndMonth(month uint, year uint, withShortened bool) ([]*Entity.Holiday, error) {
 	models := make([]*Model.Holiday, 0)
 
-	r.db.Where("year = ? and month = ?", year, month).Find(&models)
+	if withShortened {
+		r.db.Where("year = ? and month = ?", year, month).Find(&models)
+	} else {
+		r.db.Where("year = ? and month = ? and shortened = ?", year, month, 0).Find(&models)
+	}
 
 	entities := make([]*Entity.Holiday, 0)
 	for _, model := range models {

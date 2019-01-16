@@ -19,8 +19,9 @@ func (*HolidayHydrator) Extract(object interface{}) (map[string]interface{}, err
 	holiday := object.(*Entity.Holiday)
 
 	return map[string]interface{}{
-		"day":   holiday.Day,
-		"month": holiday.Month,
-		"year":  holiday.Year,
+		"day":       holiday.Day,
+		"month":     holiday.Month,
+		"year":      holiday.Year,
+		"shortened": holiday.Shortened,
 	}, nil
 }

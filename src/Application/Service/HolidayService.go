@@ -25,8 +25,8 @@ func (s *HolidayService) GetOneByYearMonthAndDay(year uint, month uint, day uint
 	return holiday, nil
 }
 
-func (s *HolidayService) GetAllByYearAndMonth(year uint, month uint) ([]*Entity.Holiday, error) {
-	holidays, err := s.holidayRepository.FindAllByYearAndMonth(month, year)
+func (s *HolidayService) GetAllByYearAndMonth(year uint, month uint, withShortened bool) ([]*Entity.Holiday, error) {
+	holidays, err := s.holidayRepository.FindAllByYearAndMonth(month, year, withShortened)
 	if err != nil {
 		return nil, err
 	}
@@ -34,8 +34,8 @@ func (s *HolidayService) GetAllByYearAndMonth(year uint, month uint) ([]*Entity.
 	return holidays, nil
 }
 
-func (s *HolidayService) GetAllByYear(year uint) ([]*Entity.Holiday, error) {
-	holidays, err := s.holidayRepository.FindAllByYear(year)
+func (s *HolidayService) GetAllByYear(year uint, withShortened bool) ([]*Entity.Holiday, error) {
+	holidays, err := s.holidayRepository.FindAllByYear(year, withShortened)
 	if err != nil {
 		return nil, err
 	}
@@ -43,8 +43,8 @@ func (s *HolidayService) GetAllByYear(year uint) ([]*Entity.Holiday, error) {
 	return holidays, nil
 }
 
-func (s *HolidayService) GetAll() ([]*Entity.Holiday, error) {
-	holidays, err := s.holidayRepository.FindAll()
+func (s *HolidayService) GetAll(withShortened bool) ([]*Entity.Holiday, error) {
+	holidays, err := s.holidayRepository.FindAll(withShortened)
 	if err != nil {
 		return nil, err
 	}
@@ -63,8 +63,9 @@ func (s *HolidayService) CreateIfNotExists(holidayDTO *DTO.HolidayDTO) error {
 	}
 
 	return s.holidayRepository.Save(&Entity.Holiday{
-		Day:   holidayDTO.Day,
-		Month: holidayDTO.Month,
-		Year:  holidayDTO.Year,
+		Day:       holidayDTO.Day,
+		Month:     holidayDTO.Month,
+		Year:      holidayDTO.Year,
+		Shortened: holidayDTO.Shortened,
 	})
 }

@@ -16,10 +16,11 @@ func (*HolidayConverter) ToDatabaseEntity(entity interface{}) (interface{}, erro
 	holiday := entity.(*Entity.Holiday)
 
 	model := &Model.Holiday{
-		ID:    holiday.ID,
-		Day:   holiday.Day,
-		Month: holiday.Month,
-		Year:  holiday.Year,
+		ID:        holiday.ID,
+		Day:       holiday.Day,
+		Month:     holiday.Month,
+		Year:      holiday.Year,
+		Shortened: holiday.Shortened,
 	}
 
 	return model, nil
@@ -33,10 +34,11 @@ func (*HolidayConverter) ToAppEntity(entity interface{}) (interface{}, error) {
 	holiday := entity.(*Model.Holiday)
 
 	model := &Entity.Holiday{
-		ID:    holiday.ID,
-		Day:   holiday.Day,
-		Month: holiday.Month,
-		Year:  holiday.Year,
+		ID:        holiday.ID,
+		Day:       holiday.Day,
+		Month:     holiday.Month,
+		Year:      holiday.Year,
+		Shortened: holiday.Shortened,
 	}
 
 	return model, nil

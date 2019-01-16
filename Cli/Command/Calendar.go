@@ -70,9 +70,10 @@ func (c *CalendarCommand) getUpdateCsvCommand() *cobra.Command {
 
 			for _, holiday := range holidays {
 				c.HolidayService.CreateIfNotExists(&DTO.HolidayDTO{
-					Year:  holiday.Year,
-					Month: holiday.Month,
-					Day:   holiday.Day,
+					Year:      holiday.Year,
+					Month:     holiday.Month,
+					Day:       holiday.Day,
+					Shortened: holiday.Shortened,
 				})
 			}
 		},

@@ -1,7 +1,8 @@
 package DTO
 
 type HolidayDTO struct {
-	Month  uint
-	Day    uint
-	Year uint
+	Month     uint
+	Day       uint
+	Year      uint
+	Shortened bool
 }

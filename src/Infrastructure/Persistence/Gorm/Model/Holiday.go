@@ -6,4 +6,6 @@ type Holiday struct {
 	Day   uint `gorm:"not null;"`
 	Month uint `gorm:"not null;"`
 	Year  uint `gorm:"not null;"`
+
+	Shortened bool `gorm:"not null;" sql:"default:false"`
 }

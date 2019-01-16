@@ -50,8 +50,10 @@ func (p *CSVCalendarParser) Parse(file *os.File, startYear uint) ([]*Entity.Holi
 				for _, dayString := range daysStringArray {
 					logrus.Println(fmt.Sprintf("Year: %d, Month: %d, Day: %s", year, month, dayString))
 
+					shortened := false
 					if strings.Contains(dayString, "*") {
-						continue
+						shortened = true
+						dayString = strings.Replace(dayString, "*", "", -1)
 					}
 
 					if strings.Contains(dayString, "+") {
@@ -64,9 +66,10 @@ func (p *CSVCalendarParser) Parse(file *os.File, startYear uint) ([]*Entity.Holi
 					}
 
 					holidays = append(holidays, &Entity.Holiday{
-						Day:   uint(day),
-						Month: uint(month),
-						Year:  uint(year),
+						Day:       uint(day),
+						Month:     uint(month),
+						Year:      uint(year),
+						Shortened: shortened,
 					})
 				}
 			}
