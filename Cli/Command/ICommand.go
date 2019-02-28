@@ -8,5 +8,3 @@ type ICommand interface {
 	GetCommand() *cobra.Command
 	getMainCommand() *cobra.Command
 }
-
-

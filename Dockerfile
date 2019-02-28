@@ -1,35 +1,33 @@
-FROM golang:1.11.1-alpine3.8 as builder
+FROM golang:1.11.1-alpine3.8
 
-ENV GOLANG_APP_REPOSITORY='github.com/umirode/prom-calendar-russia'
-
-WORKDIR $GOPATH/src/$GOLANG_APP_REPOSITORY
-
-COPY Gopkg.toml Gopkg.lock ./
 RUN \
     apk update && \
     apk upgrade && \
-    \
-    apk add --no-cache \
-        bash && \
     \
     apk add --no-cache --virtual .build-dependencies \
         libc-dev \
         gcc \
         git \
-        dep && \
-    \
-    dep ensure --vendor-only
+        dep
+
+ENV APP_REPOSITORY 'github.com/umirode/prom-calendar-russia'
+
+WORKDIR $GOPATH/src/${APP_REPOSITORY}
+
+COPY Gopkg.toml Gopkg.lock ./
+RUN dep ensure --vendor-only
 
 COPY . ./
 RUN \
     GOOS=linux \
     go build -i -o /build/app . && \
+    go build -i -o /build/cmd Cli/main.go && \
     \
-    cp .env /build/ && \
+    cp .env database.yaml /build/ && \
+    cp -R ignore /build/ && \
     \
     apk del .build-dependencies
 
-ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /build/wait.sh
-RUN chmod +x /build/wait.sh
+WORKDIR /build
 
-CMD /build/wait.sh --host=${DATABASE_HOST} --port=${DATABASE_PORT} --timeout=60 -- /build/app
+CMD /build/app

@@ -1,6 +1,7 @@
 package Validator
 
 import (
+	"github.com/Sirupsen/logrus"
 	"github.com/umirode/prom-calendar-russia/Validator/Custom"
 	"gopkg.in/go-playground/validator.v9"
 )
@@ -14,11 +15,12 @@ func NewValidator() *Validator {
 		Validator: validator.New(),
 	}
 
-	v.registerCustomValidator(Custom.NewDateCustomValidator())
-
 	return v
 }
 
 func (v *Validator) registerCustomValidator(customValidator Custom.ICustomValidator) {
-	v.Validator.RegisterValidation(customValidator.GetTag(), customValidator.GetValidator)
+	err := v.Validator.RegisterValidation(customValidator.GetTag(), customValidator.GetValidator)
+	if err != nil {
+		logrus.Error(err)
+	}
 }

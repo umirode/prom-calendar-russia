@@ -1,6 +1,7 @@
 package Service
 
 import (
+	"github.com/umirode/prom-calendar-russia/src/Domain/Error"
 	"github.com/umirode/prom-calendar-russia/src/Domain/Model/Entity"
 	"github.com/umirode/prom-calendar-russia/src/Domain/Repository"
 	"github.com/umirode/prom-calendar-russia/src/Domain/Service/DTO"
@@ -20,6 +21,10 @@ func (s *HolidayService) GetOneByYearMonthAndDay(year uint, month uint, day uint
 	holiday, err := s.holidayRepository.FindOneByDayMonthAndYear(day, month, year)
 	if err != nil {
 		return nil, err
+	}
+
+	if holiday == nil {
+		return nil, Error.NewNotFoundError()
 	}
 
 	return holiday, nil
@@ -55,7 +60,12 @@ func (s *HolidayService) GetAll(withShortened bool) ([]*Entity.Holiday, error) {
 func (s *HolidayService) CreateIfNotExists(holidayDTO *DTO.HolidayDTO) error {
 	holiday, err := s.GetOneByYearMonthAndDay(holidayDTO.Year, holidayDTO.Month, holidayDTO.Day)
 	if err != nil {
-		return err
+		switch err.(type) {
+		case *Error.NotFoundError:
+			break
+		default:
+			return err
+		}
 	}
 
 	if holiday != nil {

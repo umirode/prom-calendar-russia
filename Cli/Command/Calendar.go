@@ -1,6 +1,9 @@
 package Command
 
 import (
+	"os"
+	"strconv"
+
 	"github.com/Sirupsen/logrus"
 	"github.com/jinzhu/gorm"
 	"github.com/spf13/cobra"
@@ -9,8 +12,6 @@ import (
 	"github.com/umirode/prom-calendar-russia/src/Domain/Service"
 	"github.com/umirode/prom-calendar-russia/src/Domain/Service/DTO"
 	"github.com/umirode/prom-calendar-russia/src/Infrastructure/Persistence/Gorm/Repository"
-	"os"
-	"strconv"
 )
 
 type CalendarCommand struct {
@@ -19,10 +20,9 @@ type CalendarCommand struct {
 	HolidayService Service.IHolidayService
 }
 
-func NewCalendarCommand(db *gorm.DB) *CalendarCommand {
+func NewCalendarCommand() *CalendarCommand {
 	return &CalendarCommand{
-		Database:       db,
-		HolidayService: Service2.NewHolidayService(Repository.NewHolidayRepository(db)),
+		HolidayService: Service2.NewHolidayService(Repository.NewHolidayRepository()),
 	}
 }
 
@@ -69,12 +69,15 @@ func (c *CalendarCommand) getUpdateCsvCommand() *cobra.Command {
 			}
 
 			for _, holiday := range holidays {
-				c.HolidayService.CreateIfNotExists(&DTO.HolidayDTO{
+				err = c.HolidayService.CreateIfNotExists(&DTO.HolidayDTO{
 					Year:      holiday.Year,
 					Month:     holiday.Month,
 					Day:       holiday.Day,
 					Shortened: holiday.Shortened,
 				})
+				if err != nil {
+					logrus.Error(err)
+				}
 			}
 		},
 	}

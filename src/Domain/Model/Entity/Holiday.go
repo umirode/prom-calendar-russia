@@ -1,11 +1,11 @@
 package Entity
 
 type Holiday struct {
-	ID uint
+	ID uint `gorm:"primary_key"`
 
-	Month uint
-	Day   uint
-	Year  uint
+	Day   uint `gorm:"not null;"`
+	Month uint `gorm:"not null;"`
+	Year  uint `gorm:"not null;"`
 
-	Shortened bool
+	Shortened bool `gorm:"not null;" sql:"default:false"`
 }

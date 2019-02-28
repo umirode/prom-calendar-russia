@@ -68,3 +68,15 @@
 [[constraint]]
   name = "github.com/spf13/cobra"
   version = "0.0.3"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/NaySoftware/go-fcm"
+
+[[constraint]]
+  name = "gopkg.in/yaml.v2"
+  version = "2.2.2"
+
+[[constraint]]
+  name = "github.com/golang-migrate/migrate"
+  version = "3.5.4"

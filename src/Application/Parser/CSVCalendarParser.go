@@ -4,12 +4,13 @@ import (
 	"bufio"
 	"encoding/csv"
 	"fmt"
-	"github.com/Sirupsen/logrus"
-	"github.com/umirode/prom-calendar-russia/src/Domain/Model/Entity"
 	"io"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/Sirupsen/logrus"
+	"github.com/umirode/prom-calendar-russia/src/Domain/Model/Entity"
 )
 
 type CSVCalendarParser struct{}
